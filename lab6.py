@@ -57,7 +57,7 @@ plt.show()
 target = "MEDV"
 
 # Рассчитываем корреляцию всех признаков с целевым признаком
-correlations_with_target = data.corr()[target].sort_values(ascending=False) # Сортируем коэффициенты корреляции по убыванию (самая сильная положительная корреляция будет первой)
+correlations_with_target = data.corr()[target].abs().sort_values(ascending=False) # Сортируем коэффициенты корреляции по убыванию (самая сильная положительная корреляция будет первой)
 
 # Отображаем отсортированные коэффициенты корреляции
 print("\nКорреляция с целевым признаком (MEDV):\n")
@@ -91,11 +91,10 @@ for feature in selected_features:
     plt.show()
 
 
-
-#RM, CHAS, AGE
+# 'LSTAT', 'RM', 'PTRATIO'
 
 # Список факторных признаков
-factor_features = ["RM", "CHAS", "AGE"]
+factor_features = ["LSTAT", "RM", "PTRATIO"]
 
 # Целевая переменная
 target = "MEDV"
@@ -231,15 +230,6 @@ rmse_train_filtered = np.sqrt(mean_squared_error(y_train_filtered, y_train_pred_
 r2_test_filtered = r2_score(y_test_filtered, y_test_pred_filtered)
 rmse_test_filtered = np.sqrt(mean_squared_error(y_test_filtered, y_test_pred_filtered))
 
-# Выводим результаты
-print(f"R2 для обучающей выборки без выбросов: {r2_train_filtered}")
-print(f"RMSE для обучающей выборки без выбросов: {rmse_train_filtered}")
-
-print(f"R2 для тестовой выборки без выбросов: {r2_test_filtered}")
-print(f"RMSE для тестовой выборки без выбросов: {rmse_test_filtered}")
-
-print()
-
 
 # 8. Выводим результаты до и после удаления выбросов для сравнения
 print("Результаты до удаления выбросов:")
@@ -296,7 +286,7 @@ poly = PolynomialFeatures(degree=3)
 
 # Преобразуем данные
 X_poly = poly.fit_transform(X_train)  # Преобразуем обучающие данные (метод fit_transform сначала обучает модель
-#на обучающих данных, затем сразу выполняет преобразование)
+# на обучающих данных, затем сразу выполняет преобразование)
 X_test_poly = poly.transform(X_test)  # Преобразуем тестовые данные
 
 # Создаем и обучаем модель линейной регрессии на полиномиальных признаках
